@@ -1,0 +1,268 @@
+.buttonBoxButton {
+	-fx-background-color: transparent;
+    -fx-background-radius: 5, 5, 4;
+    -fx-background-insets: 0,1,2,3,0;
+    -fx-text-fill: #242d35;
+    -fx-font-family: "Arial";
+    -fx-font-size: 12px;
+    -fx-text-fill: white;
+    -fx-padding: 2 2 7 2;
+}
+
+.buttonBox {
+	-fx-spacing: 10;
+}
+
+.overlayBox {
+	-fx-border-radius: 10 10 10 10;
+    -fx-background-radius: 10 10 10 10;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.7), 15, 0, 0, 0);
+	-fx-padding: 90 0 0 0;
+	-fx-spacing: 60;
+    -fx-font-family: "Arial";
+    -fx-font-size: 15px;
+}
+
+.loginTextField {
+	-fx-background-color: grey , #01509b , #01509b;
+    -fx-background-insets: 0 -1 -1 -1, 0 0 0 0, 0 -2 3 -2;
+    -fx-prompt-text-fill: grey;
+    -fx-font-family: "Arial";
+}
+
+.loginTextField:focused {
+	-fx-text-fill: white;
+    -fx-background-color: #01509b , white , #01509b;
+    -fx-background-insets: 0 -1 -1 -1, 0 0 0 0, 0 -2 3 -2;
+    -fx-prompt-text-fill: white;
+    -fx-font-family: "Arial";
+}
+
+.mainTextField {
+	-fx-background-color: grey , white , white;
+    -fx-background-insets: 0 -1 -1 -1, 0 0 0 0, 0 -2 3 -2;
+    -fx-prompt-text-fill: grey;
+    -fx-font-family: "Arial";
+}
+
+.mainTextField:focused {
+	-fx-text-fill: black;
+    -fx-background-color: white , #01509b , white;
+    -fx-effect: dropshadow( three-pass-box , #01509b, 10, 0.0 , 0 , 1 );
+    -fx-background-insets: 0 -2 -1 -2, 0 -1 0 -1, 0 -2 3 -2;
+    -fx-prompt-text-fill: grey;
+    -fx-font-family: "Arial";
+    -fx-cursor-size: 10px;
+}
+
+.mainButton {
+	-fx-background-color: 
+        #000000,
+        linear-gradient(#7ebcea, #2f4b8f),
+        linear-gradient(#426ab7, #263e75),
+        linear-gradient(#395cab, #223768);
+    -fx-background-insets: 0,1,2,3;
+    -fx-background-radius: 3,2,2,2;
+    -fx-font-family: "Arial";
+    -fx-text-fill: black;
+    -fx-font-size: 12px;
+}
+
+.mainButton:hover {
+	-fx-background-color: 
+        grey,
+        linear-gradient(#7ebcea, #2f4b8f),
+        linear-gradient(#426ab7, #263e75),
+        linear-gradient(#395cab, #223768);
+    -fx-background-insets: 0,1,2,3;
+    -fx-background-radius: 3,2,2,2;
+    -fx-font-family: "Arial";
+    -fx-text-fill: white;
+    -fx-font-size: 12px;
+}
+
+.mainButton:pressed {
+	-fx-effect: innershadow( gaussian , rgba(192,192,192,0.7) , 20,0,0,0 );
+	-fx-font-family: "Arial";
+}
+
+.combo-box {
+	-fx-background-color: 
+        #000000,
+        linear-gradient(#7ebcea, #2f4b8f),
+        linear-gradient(#426ab7, #263e75),
+        linear-gradient(#395cab, #223768);
+    -fx-background-insets: 0,1,2,3;
+    -fx-background-radius: 3,2,2,2;
+    -fx-font-family: "Arial";
+    -fx-text-fill: black;
+    -fx-font-size: 12px;
+}
+
+.combo-box .list-cell {
+    -fx-background-color: white;
+    -fx-text-alignment: center;
+    -fx-border-color: #223768;
+    -fx-font-family: "Arial";
+    -fx-text-fill: black;
+    -fx-font-size: 12px;
+}
+
+.combo-box .list-cell:hover {
+	-fx-background-color: #01509b;
+	-fx-font-family: "Arial";
+    -fx-font-size: 12px;
+    -fx-text-fill: white;
+    -fx-border-color: #01509b;
+}
+
+.combo-box .list-cell:selected {
+	-fx-background-color: #2f4b8f;
+    -fx-font-family: "Arial";
+    -fx-font-size: 12px;
+    -fx-text-fill: white;	
+}
+
+.combo-box-popup .list-view 
+{
+    -fx-background-color: white;
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 8, 0.0 , 0 , 0 );
+    -fx-font-family: "Arial";
+    -fx-font-size: 12px;
+}
+
+.combo-box:hover {
+	-fx-background-color: 
+        grey,
+        linear-gradient(#7ebcea, #2f4b8f),
+        linear-gradient(#426ab7, #263e75),
+        linear-gradient(#395cab, #223768);
+    -fx-background-insets: 0,1,2,3;
+    -fx-background-radius: 3,2,2,2;
+    -fx-font-family: "Arial";
+    -fx-text-fill: white;
+    -fx-font-size: 12px;
+}
+
+.combo-box:pressed {
+	-fx-effect: innershadow( gaussian , rgba(192,192,192,0.7) , 20,0,0,0 );
+    -fx-font-family: "Arial";
+    -fx-font-size: 12px;
+}
+
+.mainLabel {
+	-fx-font-family: "Arial";
+	-fx-text-fill: white;
+	-fx-font-size: 14px;
+}
+
+.mainHyperlink {
+	-fx-font-family: "Arial";
+	-fx-text-fill: lightblue;
+	-fx-font-size: 12px;	
+}
+
+.list-cell:empty {
+	-fx-font-family: "Arial";
+    -fx-background-color: white;
+    -fx-border-color: white;
+}
+
+.list-cell:empty:hover {
+	-fx-font-family: "Arial";
+	-fx-background-color: white;
+}
+ 
+.list-cell:hover{
+	-fx-font-family: "Arial";
+    -fx-text-fill: white;
+    -fx-background-color: #01509b;
+}
+ 
+.list-cell:selected{
+	-fx-font-family: "Arial";
+    -fx-background-color: #01509b;
+}
+
+.list-cell {
+  -fx-font-family: "Arial";
+  -fx-alignment: center;
+}
+
+.list-cell .placeholder {
+	-fx-font-family: "Arial";
+	-fx-font-fill: black;
+}
+
+.mainScrollPane {
+	-fx-background-color: #bbd3f9;
+	-fx-padding: 20;
+}
+
+.mainScrollPane .viewport {
+	-fx-background-color: #bbd3f9;
+}
+
+.mainScrollPaneTextField {
+	-fx-background-color: grey , #bbd3f9 , #bbd3f9;
+    -fx-background-insets: 0 -1 -1 -1, 0 0 0 0, 0 -2 3 -2;
+    -fx-prompt-text-fill: grey;
+    -fx-font-family: "Arial";
+}
+
+.mainScrollPaneTextField:focused {
+	-fx-text-fill: black;
+    -fx-background-color: #bbd3f9 , #01509b , #bbd3f9;
+    -fx-effect: dropshadow( three-pass-box , #01509b, 10, 0.0 , 0 , 1 );
+    -fx-background-insets: 0 -2 -1 -2, 0 -1 0 -1, 0 -2 3 -2;
+    -fx-prompt-text-fill: grey;
+    -fx-font-family: "Arial";
+    -fx-cursor-size: 10px;
+}
+
+.noTestBubble {
+	-fx-background-color: #01509b;
+	-fx-padding: 15;
+	-fx-font-family:"Arial";
+	-fx-font-size: 16px;
+	-fx-shape: "M24 1h-24v16.981h4v5.019l7-5.019h13z";
+}
+
+.data0.chart-pie { 
+	-fx-pie-color: green;
+}  
+
+.data1.chart-pie {
+	-fx-pie-color: red;
+}
+
+.chart-title {
+	-fx-font-family: "Arial";
+	-fx-font-size: 23px;
+}
+
+.chart-pie-label {
+	-fx-font-family: "Arial";
+	-fx-font-size: 14px;
+}
+
+.chart-legend {
+	-fx-font-family: "Arial";
+	-fx-font-size: 14px;	
+}
+
+.transparentBackground {
+	-fx-background-color: transparent;
+}
+
+.transparentBackgroundWithPadding {
+	-fx-padding: 10;	
+}
+
+.test {
+	-fx-background-color: lightgrey;
+}
+
+.test2 {
+	-fx-background-color: black;
+}

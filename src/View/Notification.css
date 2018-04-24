@@ -1,0 +1,29 @@
+
+.content {
+	-fx-background-color: linear-gradient(#01509b 0%, #01509b 20%, white 21%, white 100%);
+	-fx-font-family: "Arial";
+}
+
+.title {
+	-fx-text-fill: white;
+}
+
+.rightPane {
+	-fx-padding: 5 0 0 10;
+	-fx-font-family: "Arial";
+}
+
+.warning {
+	-fx-background-color: orange;
+	-fx-font-family: "Arial";
+}
+
+.info {
+	-fx-background-color: green;
+	-fx-font-family: "Arial";
+}
+
+.error {
+	-fx-background-color: red;
+	-fx-font-family: "Arial";
+}
