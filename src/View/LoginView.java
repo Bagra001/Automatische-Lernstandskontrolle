@@ -2,7 +2,9 @@ package View;
 
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
+import java.io.File;
 
+import Model.HTMLFile;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -65,6 +67,8 @@ public class LoginView {
 		this.stack = stack;
 		createLoginView();
 		this.stack.getChildren().add(mainPane);
+		HTMLFile htmlFile = new HTMLFile(new File("src/PDFs/Bescheinigung.xhtml").getAbsolutePath());
+		htmlFile.generatePDF("src/PDFs/Test.pdf");
 	}
 
 	private void createLoginView() {

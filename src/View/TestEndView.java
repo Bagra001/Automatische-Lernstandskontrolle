@@ -1,8 +1,11 @@
 package View;
 
+import java.io.File;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import Model.HTMLFile;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -94,6 +97,12 @@ public class TestEndView extends MainWindow {
 		mainPageButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override public void handle(ActionEvent e) {
 				changeTop();
+			}
+		});
+		pdfButton.setOnAction(new EventHandler<ActionEvent>() {
+			@Override public void handle(ActionEvent e) {
+				HTMLFile htmlFile = new HTMLFile(new File("src/PDFs/Bescheinigung.xhtml").getAbsolutePath());
+				htmlFile.generatePDF("src/PDFs/Test.pdf");
 			}
 		});
 	}

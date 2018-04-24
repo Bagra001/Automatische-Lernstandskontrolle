@@ -13,4 +13,9 @@ public class KorrekteurView extends MainWindow {
 	
 	private Button logoutButton;
 	private Button correctButton;
+	
+	public KorrekteurView(StackPane stack) {
+		this.stack = stack;
+		mainPane().getChildren().add(stack);
+	}
 }
