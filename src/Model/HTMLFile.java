@@ -40,7 +40,7 @@ public class HTMLFile {
 		return true;
 	}
 
-	public void generatePDF(String pdf) {
+	public boolean generatePDF(String pdf) {
 		try {
 			
 			FileOutputStream os = new FileOutputStream(pdf);
@@ -55,14 +55,16 @@ public class HTMLFile {
 			os.close();
 			os = null;
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return false;
 		} catch (DocumentException e) {
 			e.printStackTrace();
+			return false;
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
+			return false;
 		}
-
+		return true;
 	}
 
 	public File getHtmlFile() {
