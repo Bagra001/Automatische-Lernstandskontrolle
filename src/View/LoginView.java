@@ -3,8 +3,13 @@ package View;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.io.File;
+import java.net.URL;
+import java.util.ResourceBundle;
+
+import com.sun.org.apache.bcel.internal.generic.NEW;
 
 import Model.HTMLFile;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -25,22 +30,22 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class LoginView {
-	
+
 	@SuppressWarnings("unused")
 	private RegistrationView regView;
 	private Notification notification;
-	
+
 	private StackPane stack;
 	private AnchorPane mainPane;
 	private HBox buttonBox;
-	
+
 	private BorderPane rightPane;
 	private TextField usernameTextField;
 	private PasswordField passwordTextField;
 	private VBox textfieldBox;
 	private Hyperlink pwForgottenLink;
 	private Button loginButton;
-	
+
 	private BorderPane leftPane;
 	private Label signUpLabel;
 	private Button signUpButton;
@@ -57,7 +62,7 @@ public class LoginView {
 	// vars for movement
 	private double xOffset = 0;
 	private double yOffset = 0;
-	
+
 	// for resizing
 	private int screenWidth;
 	private int screenHeight;
@@ -67,8 +72,7 @@ public class LoginView {
 		this.stack = stack;
 		createLoginView();
 		this.stack.getChildren().add(mainPane);
-		HTMLFile htmlFile = new HTMLFile(new File("src/PDFs/Bescheinigung.xhtml").getAbsolutePath());
-		htmlFile.generatePDF("src/PDFs/Test.pdf");
+		usernameTextField.requestFocus();
 	}
 
 	private void createLoginView() {
@@ -86,7 +90,7 @@ public class LoginView {
 		createLabels();
 		createButtons();
 	}
-	
+
 	private void createPanes() {
 		mainPane = new AnchorPane();
 		overlayBox = new VBox();
@@ -95,26 +99,26 @@ public class LoginView {
 		textfieldBox = new VBox();
 		leftPane = new BorderPane();
 	}
-	
+
 	private void createButtons() {
 		closeButton = new Button();
 		minimizeButton = new Button();
 		loginButton = new Button("Einloggen");
 		signUpButton = new Button("Registrieren");
 	}
-	
+
 	private void createLabels() {
 		signUpLabel = new Label("Nicht registriert?");
 		welcomeLabel = new Label("Willkommen in der Lernstandskontrolle\nder Fachhochschule Südwestfalen.\n\nBitte loggen Sie sich ein.");
 		pwForgottenLink = new Hyperlink("Password vergessen?");
 	}
-	
+
 	private void createImages() {
 		imageClose = new Image(getClass().getResourceAsStream("/Bilder/close.png"));
 		imageMin = new Image(getClass().getResourceAsStream("/Bilder/min.png"));
 		logo = new Image(getClass().getResourceAsStream("/Bilder/FH-SWF_Logo-RGB.jpg"));
 	}
-	
+
 	private void createTextFields() {
 		usernameTextField = new TextField();
 		passwordTextField = new PasswordField();
@@ -137,7 +141,7 @@ public class LoginView {
 		setActions();
 		makeMovable();
 	}
-	
+
 	private void configLeftSide() {
 		VBox content = new VBox();
 		content.setAlignment(Pos.CENTER);
@@ -145,7 +149,7 @@ public class LoginView {
 		content.getChildren().addAll(signUpLabel,signUpButton);
 		leftPane.setCenter(content);
 	}
-	
+
 	private void fhswfLogo() {
 		ImageView imageView = new ImageView(logo);
 		imageView.setFitWidth(screenWidth * 0.2);
@@ -163,41 +167,41 @@ public class LoginView {
 		setLeftPaneSize(screenWidth * 0.12, screenHeight * 0.5);
 		setLoginTextFieldWidth(screenWidth * 0.2);
 	}
-	
+
 	private void setMainPaneSize(double width, double height) {
 		mainPane.setMinSize(width, height);
 		mainPane.setMaxSize(width, height);
 	}
-	
+
 	private void setOverlayBoxSize(double width, double height) {
 		overlayBox.setMinSize(width, height);
 		overlayBox.setMaxSize(width, height);
 	}
-	
+
 	private void setRightPaneSize(double width, double height) {
 		rightPane.setMinSize(width, height);
 		rightPane.setMinSize(width, height);
 	}
-	
+
 	private void setLeftPaneSize(double width, double height) {
 		leftPane.setMinSize(width, height);
 		leftPane.setMaxSize(width, height);
 	}
-	
+
 	private void setWindowButtonSize(double width, double height) {
 		closeButton.setMaxSize(width, height);
 		closeButton.setMinSize(width, height);
 		minimizeButton.setMinSize(width, height);
 		minimizeButton.setMaxSize(width, height);
 	}
-	
+
 	private void setLoginTextFieldWidth(double width) {
 		usernameTextField.setMaxWidth(width);
 		usernameTextField.setMinWidth(width);
 		passwordTextField.setMaxWidth(width);
 		passwordTextField.setMinWidth(width);
 	}
-	
+
 	private void configLoginTextFields() {
 		usernameTextField.setPromptText("Benutzername");
 		passwordTextField.setPromptText("Passwort");
@@ -265,7 +269,7 @@ public class LoginView {
 					stage.setIconified(true); // maximiere
 			}
 		});
-		
+
 		signUpButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override public void handle(ActionEvent e) {
 				regView = new RegistrationView(stack);
@@ -273,13 +277,20 @@ public class LoginView {
 				notification.information("Information","Auf Registrieren gedrückt");
 			}
 		});
-		
+
 		loginButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override public void handle(ActionEvent e) {
-				StudentView stud = new StudentView(stack);
+				if(!usernameTextField.getText().isEmpty()) {
+					if(usernameTextField.getText().matches("[sS]")) {
+						StudentView studView = new StudentView(stack);
+					}
+					if(usernameTextField.getText().matches("[kK]")) {
+						KorrekteurView korView = new KorrekteurView(stack);
+					}
+				}
 			}
 		});
-		
+
 		pwForgottenLink.setOnAction(new EventHandler<ActionEvent>() {
 			@Override public void handle(ActionEvent e) {
 				notification = new Notification();
@@ -305,7 +316,7 @@ public class LoginView {
 			}
 		});
 	}
-	
+
 	private void getScreenSize() {
 		GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
 		screenWidth = gd.getDisplayMode().getWidth();
