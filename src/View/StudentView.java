@@ -1,7 +1,8 @@
 package View;
 
-import com.sun.rowset.providers.RIOptimisticProvider;
+import java.util.Optional;
 
+import javafx.beans.binding.Bindings;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
@@ -10,12 +11,18 @@ import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.Tooltip;
+import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.image.Image;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -27,23 +34,25 @@ public class StudentView extends MainWindow {
 	private BorderPane leftPane;
 	private VBox rightPane;
 	private HBox buttonBox;
-	
+
 	private ListView<String> modulListView;
-	
+
 	private Button logoutButton;
-	private Button removeButton;
 	private Button addButton;
 	private Button startButton;
 	private Button profilButton;
 	private ComboBox<String> addModulComboBox;
-	
+
+	private ContextMenu listMenu;
+	private MenuItem delItem;
+
 	private Label hasTests;
 	private ComboBox<String> testComboBox;
-	
+
 	private Image startImg;
 	private Image addImg;
 	private Image remImg;
-	
+
 	public StudentView(StackPane stack) {
 		super();
 		this.stack = stack;
@@ -51,7 +60,7 @@ public class StudentView extends MainWindow {
 		createStudentView();
 		this.stack.getChildren().add(mainPane());
 	}
-	
+
 	private void createStudentView() {
 		createComponents();
 		configComponents();
@@ -61,7 +70,7 @@ public class StudentView extends MainWindow {
 		setStyle();
 		setupToolTip();
 	}
-	
+
 	private void createComponents() {
 		modulListView = new ListView<String>();
 		modulListView.getItems().add("TestModul");
@@ -72,7 +81,7 @@ public class StudentView extends MainWindow {
 		createChoiceBoxes();
 		createImages();
 	}
-	
+
 	private void createChoiceBoxes() {
 		testComboBox = new ComboBox<String>();
 		addModulComboBox = new ComboBox<String>();
@@ -86,29 +95,28 @@ public class StudentView extends MainWindow {
 
 	private void createButtons() {
 		logoutButton = new Button("Ausloggen");
-		removeButton = new Button();
 		addButton = new Button();
 		startButton = new Button("Test starten");
 		profilButton = new Button("Profil");
 	}
-	
+
 	private void createBoxes() {
 		rightPane = new VBox();
 		buttonBox = new HBox();
 	}
-	
+
 	private void addComponents() {
 		buttonBox.getChildren().addAll(logoutButton, profilButton);
-		
-		HBox box2 = new HBox(addModulComboBox, addButton, removeButton);
+
+		HBox box2 = new HBox(addModulComboBox, addButton);
 		box2.setSpacing(mainPane().getMinWidth() * 0.05);
 		box2.setAlignment(Pos.CENTER);
-		
+
 		rightPane.getChildren().addAll(box2,hasTests,testComboBox,startButton, buttonBox);
 		mainPane().getChildren().addAll(leftPane, rightPane);
 		setSpacings();
 	}
-	
+
 	private void configComponents() {
 		startButton.setGraphic(createAndSizeImageView(startImg));
 		setSizes();
@@ -116,36 +124,53 @@ public class StudentView extends MainWindow {
 		rightPane.setAlignment(Pos.TOP_CENTER);
 		setActions();
 		addButton.setGraphic(createAndSizeImageView(addImg));
-		removeButton.setGraphic(createAndSizeImageView(remImg));
 		addModulComboBox.getItems().add("Modul");
 		testComboBox.getItems().add("Test");
 	}
-	
+
 	private void setupToolTip() {
 		Tooltip.install(hasTests, makeBubble(new Tooltip("Info:\nEs stehen keine Test an.\n")));
 	}
-	
+
 	private void setupListView() {
 		leftPane.setCenter(modulListView);
 		modulListView.setMaxSize(leftPane.getMinWidth(), leftPane.getMinHeight());
 		modulListView.setMinSize(leftPane.getMinWidth(), leftPane.getMinHeight());
 		modulListView.setPlaceholder(new Label("No Data available"));
-		modulListView.setCellFactory(param -> new ListCell<String>() {
-			@Override
-			protected void updateItem(String item, boolean empty) {
-				super.updateItem(item, empty);
-				if (empty || item == null) {
-					modulListView.setPlaceholder(new Label("No Data available"));
-				} else {
-					setText(item);
+		modulListView.setCellFactory(lv -> {
+			ListCell<String> cell = new ListCell<String>() {  
+				@Override
+				protected void updateItem(String item, boolean empty) {
+					super.updateItem(item, empty);
+					if (empty || item == null) {
+						modulListView.setPlaceholder(new Label("No Data available"));
+					} else {
+						setText(item);
+					}
 				}
-			}
+			};
+
+			createContextMenu();
+
+			cell.addEventFilter(MouseEvent.MOUSE_PRESSED, event -> {
+				//modulListView.requestFocus();
+				if (!cell.isEmpty()) {
+					//select item
+					modulListView.getSelectionModel().select(cell.getIndex());
+					if (event.getButton() == MouseButton.SECONDARY) {
+						listMenu.show(modulListView, event.getScreenX(), event.getScreenY());
+					}
+					if(event.getButton() == MouseButton.PRIMARY) {
+						ModulTestView testView = new ModulTestView(stack, modulListView);
+					}
+					event.consume();
+				}
+			});
+			return cell ;
 		});
 	}
-	
+
 	private void setRightComponentSize(double width) {
-		removeButton.setMinWidth(width * 0.3);
-		removeButton.setMaxWidth(width * 0.3);
 		startButton.setMinWidth(width);
 		startButton.setMaxWidth(width);
 		addButton.setMinWidth(width * 0.3);
@@ -159,7 +184,7 @@ public class StudentView extends MainWindow {
 		addModulComboBox.setMaxWidth(width);
 		addModulComboBox.setMinWidth(width);
 	}
-	
+
 	private void setSizes() {
 		rightPane.setMinSize(mainPane().getMinWidth() * 0.4, mainPane().getMinHeight() * 0.9);
 		rightPane.setMaxSize(mainPane().getMinWidth() * 0.4, mainPane().getMinHeight() * 0.9);
@@ -169,65 +194,63 @@ public class StudentView extends MainWindow {
 		addModulComboBox.setVisibleRowCount(8);
 		testComboBox.setVisibleRowCount(8);
 	}
-	
+
 	private void setSpacings() {
 		buttonBox.setSpacing(mainPane().getMinWidth() * 0.15);
 		rightPane.setSpacing(mainPane().getMinHeight() * 0.15);
 	}
-	
+
 	private void setAnchors() {
 		AnchorPane.setLeftAnchor(leftPane, 0.0);
 		AnchorPane.setTopAnchor(leftPane, mainPane().getMinHeight() * 0.06);
 		AnchorPane.setTopAnchor(rightPane, mainPane().getMinHeight() * 0.1);
 		AnchorPane.setLeftAnchor(rightPane, leftPane.getMinWidth() + 30);
 	}
-	
+
 	private void setStyle() {
 		logoutButton.getStyleClass().add("mainButton");
-		removeButton.getStyleClass().add("mainButton");
 		addButton.getStyleClass().add("mainButton");
 		profilButton.getStyleClass().add("mainButton");
 		startButton.getStyleClass().add("mainButton");
 		hasTests.setStyle("-fx-font-size: 16px;");
 	}
-	
+
 	private void setActions() {
 		logoutButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override public void handle(ActionEvent e) {
 				changeTop();
 			}
 		});
-		
+
 		profilButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override public void handle(ActionEvent e) {
 				ProfilView profilV = new ProfilView(stack);
 			}
 		});
-		
+
 		startButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override public void handle(ActionEvent e) {
 				StudentTestView stTestView = new StudentTestView(stack, "TEST des MODULS");
 			}
 		});
-		
+
 		addButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override public void handle(ActionEvent e) {
 				createAndShowComfirmAlert("Modul hinzufügen", "Möchten Sie wirklich MODUL\nzu deinen Modulen hinzufügen?");
 			}
 		});
-		
-		removeButton.setOnAction(new EventHandler<ActionEvent>() {
-			@Override public void handle(ActionEvent e) {
-				createAndShowComfirmAlert("Modul löschen", "Möchten Sie wirklich MODUL\nvon deinen Modulen löschen?");
-			}
+	}
+
+	private void createContextMenu() {
+		listMenu = new ContextMenu();
+		MenuItem deleteItem = new MenuItem("Löschen");
+		deleteItem.setOnAction(event -> { 
+			Optional<ButtonType> opt = createComfirmAlert("Modullöschung", "Möchten Sie das Modul wirklich löschen?");
+			if(opt.get().getButtonData() == ButtonData.YES) {
+				modulListView.getItems().remove(modulListView.getSelectionModel().getSelectedItem());
+			} 
 		});
-		
-		modulListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
-		    @Override
-		    public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-		    	ModulTestView testView = new ModulTestView(stack, modulListView);
-		    }
-		});
+		listMenu.getItems().addAll(deleteItem);
 	}
 
 	private void changeTop() {
