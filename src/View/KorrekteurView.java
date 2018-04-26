@@ -1,7 +1,10 @@
 package View;
 
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
@@ -10,6 +13,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 public class KorrekteurView extends MainWindow {
 	private StackPane stack;
@@ -85,7 +89,7 @@ public class KorrekteurView extends MainWindow {
 		AnchorPane.setLeftAnchor(modulListView, 0.0);
 		AnchorPane.setTopAnchor(modulListView, mainPane().getMinHeight() * 0.06);
 		AnchorPane.setBottomAnchor(modulListView, mainPane().getMinHeight() * 0.01);
-		AnchorPane.setLeftAnchor(rightListViewBox, mainPane().getMinWidth() * 0.4 + 10.0);
+		AnchorPane.setLeftAnchor(rightListViewBox, mainPane().getMinWidth() * 0.43 + 5.0);
 		AnchorPane.setTopAnchor(rightListViewBox, mainPane().getMinHeight() * 0.06);
 		AnchorPane.setBottomAnchor(rightListViewBox, mainPane().getMinHeight() * 0.06);
 		AnchorPane.setTopAnchor(buttonBox, mainPane().getMinHeight() * 0.1);
@@ -96,8 +100,8 @@ public class KorrekteurView extends MainWindow {
 	private void setupModulListView() {
 		modulListView.getItems().add("Modul");
 
-		modulListView.setMaxSize(mainPane().getMinWidth() * 0.4, mainPane().getMinHeight());
-		modulListView.setMinSize(mainPane().getMinWidth() * 0.4, mainPane().getMinHeight());
+		modulListView.setMaxSize(mainPane().getMinWidth() * 0.43, mainPane().getMinHeight());
+		modulListView.setMinSize(mainPane().getMinWidth() * 0.43, mainPane().getMinHeight());
 		modulListView.setPlaceholder(new Label("No Data available"));
 		modulListView.setCellFactory(param -> new ListCell<String>() {
 			@Override
@@ -116,8 +120,8 @@ public class KorrekteurView extends MainWindow {
 		if(modulListView.getSelectionModel().getSelectedItem() != null)
 			testListView.getItems().add("Test");
 
-		testListView.setMaxSize(mainPane().getMinWidth() * 0.4, mainPane().getMinHeight() * 0.45);
-		testListView.setMinSize(mainPane().getMinWidth() * 0.4, mainPane().getMinHeight() * 0.45);
+		testListView.setMaxSize(mainPane().getMinWidth() * 0.45, mainPane().getMinHeight() * 0.45);
+		testListView.setMinSize(mainPane().getMinWidth() * 0.45, mainPane().getMinHeight() * 0.45);
 		testListView.setPlaceholder(new Label("No Data available"));
 		testListView.setCellFactory(param -> new ListCell<String>() {
 			@Override
@@ -136,8 +140,8 @@ public class KorrekteurView extends MainWindow {
 		if(testListView.getSelectionModel().getSelectedItem() != null)
 			studentListView.getItems().add("Student");
 
-		studentListView.setMaxSize(mainPane().getMinWidth() * 0.4, mainPane().getMinHeight() * 0.45);
-		studentListView.setMinSize(mainPane().getMinWidth() * 0.4, mainPane().getMinHeight() * 0.45);
+		studentListView.setMaxSize(mainPane().getMinWidth() * 0.45, mainPane().getMinHeight() * 0.45);
+		studentListView.setMinSize(mainPane().getMinWidth() * 0.45, mainPane().getMinHeight() * 0.45);
 		studentListView.setPlaceholder(new Label("No Data available"));
 		studentListView.setCellFactory(param -> new ListCell<String>() {
 			@Override
@@ -165,10 +169,30 @@ public class KorrekteurView extends MainWindow {
 	        	studentListView.getItems().add("Student");
 	        }
 	    });
+		correctButton.setOnAction(new EventHandler<ActionEvent>() {
+			@Override public void handle(ActionEvent e) {
+				KorrekteurKorrekturView kkView = new KorrekteurKorrekturView(stack);
+			}
+		});
+		
+		logoutButton.setOnAction(new EventHandler<ActionEvent>() {
+			@Override public void handle(ActionEvent e) {
+				changeTop();
+			}
+		});
 	}
 
 	private void setStyle() {
 		correctButton.getStyleClass().add("mainButton");
 		logoutButton.getStyleClass().add("mainButton");
+	}
+	
+	private void changeTop() {
+		ObservableList<Node> childs = this.stack.getChildren();
+		if (childs.size() > 1) {
+			Node topNode = childs.get(childs.size()-1);
+			topNode.setVisible(false);
+			topNode.toBack();
+		}
 	}
 }
