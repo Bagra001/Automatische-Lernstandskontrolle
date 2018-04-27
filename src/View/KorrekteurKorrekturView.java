@@ -63,6 +63,7 @@ public class KorrekteurKorrekturView extends MainWindow {
 		content = new BorderPane();
 		submitButton = new Button("Absenden");
 		cancelButton = new Button("Zurück");
+		mainText = new Label("Modul Datum Matrikelnummer");
 		scrollContent = new ScrollPane();
 		createQuestionAnswerDialog(10);
 	}
@@ -77,6 +78,7 @@ public class KorrekteurKorrekturView extends MainWindow {
 
 	private void addComponents() {
 		buttonBox.getChildren().addAll(cancelButton, submitButton);
+		content.setTop(mainText);
 		content.setBottom(buttonBox);
 		content.setCenter(scrollContent);
 		scrollContent.setContent(questionBox);
@@ -84,7 +86,7 @@ public class KorrekteurKorrekturView extends MainWindow {
 	}
 
 	private void configComponents() {
-		scrollContent.setMaxHeight(mainPane().getMinHeight() * 0.85);
+		scrollContent.setMaxHeight(mainPane().getMinHeight() * 0.83);
 		setAnchors();
 		setAlignments();
 		setStyle();
@@ -115,6 +117,7 @@ public class KorrekteurKorrekturView extends MainWindow {
 		scrollContent.getStyleClass().add("mainScrollPane");
 		questionBox.getStyleClass().add("transparentBackground");
 		content.getStyleClass().add("transparentBackground");
+		mainText.getStyleClass().add("korrektLabel");
 		BorderPane.setMargin(submitButton, new Insets(10.0, 0.0, 0.0, 0.0));
 	}
 

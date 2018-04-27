@@ -156,6 +156,11 @@
 	-fx-font-size: 14px;
 }
 
+.korrektLabel {
+	-fx-font-family: "Arial";
+	-fx-font-size: 14px;
+}
+
 .mainHyperlink {
 	-fx-font-family: "Arial";
 	-fx-text-fill: lightblue;
@@ -249,6 +254,14 @@
 .chart-legend {
 	-fx-font-family: "Arial";
 	-fx-font-size: 14px;	
+}
+
+.tab-pane {
+	-fx-padding: 10;
+}
+
+.tab-pane .tab-header-background{
+	-fx-background-color: transparent;
 }
 
 .transparentBackground {

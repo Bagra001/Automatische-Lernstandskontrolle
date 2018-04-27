@@ -44,7 +44,6 @@ public class StudentView extends MainWindow {
 	private ComboBox<String> addModulComboBox;
 
 	private ContextMenu listMenu;
-	private MenuItem delItem;
 
 	private Label hasTests;
 	private ComboBox<String> testComboBox;
@@ -244,6 +243,7 @@ public class StudentView extends MainWindow {
 	private void createContextMenu() {
 		listMenu = new ContextMenu();
 		MenuItem deleteItem = new MenuItem("Löschen");
+		deleteItem.setGraphic(createAndSizeImageView(remImg));
 		deleteItem.setOnAction(event -> { 
 			Optional<ButtonType> opt = createComfirmAlert("Modullöschung", "Möchten Sie das Modul wirklich löschen?");
 			if(opt.get().getButtonData() == ButtonData.YES) {

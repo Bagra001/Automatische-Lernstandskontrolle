@@ -287,6 +287,9 @@ public class LoginView {
 					if(usernameTextField.getText().matches("[kK]")) {
 						KorrekteurView korView = new KorrekteurView(stack);
 					}
+					if(usernameTextField.getText().matches("[dD]")) {
+						DozentView dozView = new DozentView(stack);
+					}
 				}
 			}
 		});
